@@ -1,3 +1,4 @@
+import type { Mesh } from "three";
 import { create } from "zustand";
 import { subscribeWithSelector } from 'zustand/middleware'
 
@@ -9,6 +10,9 @@ type GameStore = {
   score: number
   spawnTargets: (stage: number) => void
   hitTarget: (id: number) => void
+  meshes: Mesh[]
+  registerMesh: (mesh: Mesh) => void
+  unregisterMesh: (id: number) => void
 }
 
 const randX = () => (Math.random() - 0.5) * 20
@@ -22,11 +26,13 @@ const generateTargets = (_stage: number) => {
   ]
 }
 
+
 export const useGameStore = create<GameStore>()(subscribeWithSelector((set, _get) => ({
   level: null,
   currentStage: 0,
   targets: [],
   score: 0,
+  meshes: [],
 
   spawnTargets: (stage) => set({
     targets: generateTargets(stage)
@@ -34,5 +40,11 @@ export const useGameStore = create<GameStore>()(subscribeWithSelector((set, _get
   hitTarget: (id) => set((state) => ({
     targets: state.targets.filter(t => t.id !== id),
     score: state.score + 1
+  })),
+  registerMesh: (mesh) => set((state) => ({
+    meshes: [...state.meshes, mesh]
+  })),
+  unregisterMesh: (id) => set((state) => ({
+    meshes: state.meshes.filter(m => m.userData.id !== id)
   }))
 })))

@@ -27,6 +27,7 @@ export default function Experience() {
 
       {targets.map(t => (
         <Target
+          id={t.id}
           key={t.id}
           position={t.position}
           scale={t.scale}
