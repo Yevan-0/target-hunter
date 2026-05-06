@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { Sky, PointerLockControls } from "@react-three/drei"
 import { Target } from "./Target.tsx"
-import { useGameStore } from "../../store"
+import { useGameStore } from "../store.ts"
 import Shooter from './Shooter.tsx'
 import Timer from './Timer.tsx'
 
@@ -13,12 +13,13 @@ export default function Experience() {
   const nextWave = useGameStore(s => s.nextWave)
   const timeLeft = useGameStore(s => s.timeLeft)
 
+
   useEffect(() => {
     if (targets.length === 0 && timeLeft < 30) {
       nextWave()
     }
   }, [targets])
-  
+
   useEffect(() => {
     spawnTargets(1)
   }, [])

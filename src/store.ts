@@ -59,7 +59,7 @@ export const useGameStore = create<GameStore>()(subscribeWithSelector((set, get)
     meshes: state.meshes.filter(m => m.userData.id !== id)
   })),
   tickTimer: () => set((state) => ({
-    timeLeft: state.timeLeft - 1,
+    timeLeft: Math.max(0, state.timeLeft - 1),
     isGameOver: state.timeLeft - 1 <= 0
   })),
   nextWave: () => set((state) => {

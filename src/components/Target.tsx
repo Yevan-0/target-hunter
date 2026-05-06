@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react"
-import { useGameStore } from "../../store"
+import { useGameStore } from "../store"
 import { Mesh } from "three"
 
 type Props = {
@@ -11,8 +11,8 @@ type Props = {
 
 export function Target({ id, position, scale = 1, }: Props) {
   const meshRef = useRef<Mesh>(null)
-  const registerMesh = useGameStore((state) => state.registerMesh)
-  const unregisterMesh = useGameStore((state) => state.unregisterMesh)
+  const registerMesh = useGameStore((s) => s.registerMesh)
+  const unregisterMesh = useGameStore((s) => s.unregisterMesh)
 
   useEffect(() => {
     if (meshRef.current) {

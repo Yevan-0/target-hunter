@@ -1,5 +1,5 @@
 import { useThree } from '@react-three/fiber'
-import { useGameStore } from '../../store'
+import { useGameStore } from '../store'
 import { Vector2 } from 'three'
 import { useEffect } from 'react'
 
