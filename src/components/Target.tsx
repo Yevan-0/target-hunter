@@ -7,16 +7,16 @@ type Props = {
   position: [number, number, number]
   scale?: number
   speed?: number
-  onClick?: () => void
 }
 
-export function Target({ id, position, scale = 1, onClick }: Props) {
+export function Target({ id, position, scale = 1, }: Props) {
   const meshRef = useRef<Mesh>(null)
   const registerMesh = useGameStore((state) => state.registerMesh)
   const unregisterMesh = useGameStore((state) => state.unregisterMesh)
 
   useEffect(() => {
     if (meshRef.current) {
+      console.log('meshRef.current:', meshRef.current)
       meshRef.current.userData.id = id
       registerMesh(meshRef.current)
     }
@@ -30,7 +30,6 @@ export function Target({ id, position, scale = 1, onClick }: Props) {
       ref={meshRef}
       position={position}
       scale={scale}
-      onClick={onClick}
       rotation={[Math.PI / 2, 0, 0]}>
       <cylinderGeometry args={[1, 1, 0.1, 64]} />
       <meshStandardMaterial color="white" />
