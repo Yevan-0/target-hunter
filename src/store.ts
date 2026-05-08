@@ -2,7 +2,15 @@ import type { Mesh } from "three";
 import { create } from "zustand";
 import { subscribeWithSelector } from 'zustand/middleware'
 
+export const gameStates = {
+  MENU: "MENU",
+  GAME: "GAME",
+  GAME_OVER: "GAME OVER"
+}
+
 type GameStore = {
+  gameState: string
+  setGameState: (state: string) => void
   level: null | number
   currentStage: number
   targets: { id: number; position: [number, number, number]; scale: number; speed: number }[]
@@ -17,6 +25,7 @@ type GameStore = {
   isGameOver: boolean
   tickTimer: () => void
   nextWave: () => void
+  resetGame: () => void
 }
 
 const randX = () => (Math.random() - 0.5) * 20
@@ -35,7 +44,9 @@ const generateTargets = (wave: number) => {
   return targets
 }
 
+// store
 export const useGameStore = create<GameStore>()(subscribeWithSelector((set, get) => ({
+  gameState: gameStates.MENU,
   level: null,
   currentStage: 0,
   targets: [],
@@ -45,6 +56,8 @@ export const useGameStore = create<GameStore>()(subscribeWithSelector((set, get)
   wave: 1,
   isGameOver: false,
 
+
+  setGameState: (gameState) => set({ gameState }),
   spawnTargets: (stage) => set({
     targets: generateTargets(stage),
   }),
@@ -66,5 +79,14 @@ export const useGameStore = create<GameStore>()(subscribeWithSelector((set, get)
     const newWave = state.wave + 1
     get().spawnTargets(newWave)
     return { wave: newWave }
-  })
+  }),
+  resetGame: () => set({
+    targets: [],
+    meshes: [],
+    score: 0,
+    wave: 1,
+    timeLeft: 30,
+    isGameOver: false,
+    gameState: gameStates.MENU
+  }),
 })))

@@ -16,8 +16,7 @@ export function Target({ id, position, scale = 1, }: Props) {
 
   useEffect(() => {
     if (meshRef.current) {
-      console.log('meshRef.current:', meshRef.current)
-      meshRef.current.userData.id = id
+       meshRef.current.userData.id = id
       registerMesh(meshRef.current)
     }
     return () => {
